@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sticker_app/core/utils/sticker_builder.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
+import 'package:sticker_app/features/sticker/widgets/sticker_shop_detail.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 class StickerTypeViewer extends StatelessWidget {
@@ -12,8 +14,7 @@ class StickerTypeViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StickerProvider>(context);
-    final allStickerList = provider.allSticker;
-    final stickerList = allStickerList[type] ?? [];
+    final stickerList = provider.allSticker[type] ?? [];
 
     if (provider.isLoading) return const Center(child: CircularProgressIndicator());
     if (provider.error != null) return Center(child: Text('Lỗi: ${provider.error}'));
@@ -38,11 +39,24 @@ class StickerTypeViewer extends StatelessWidget {
             itemCount: stickerList.length,
             itemBuilder: (context, index) {
               final sticker = stickerList[index];
-              return GestureDetector(
-                onTap: () {
-                  onStickerSelected(sticker);
-                },
-                child: Image.network(sticker.path),
+              final isPro = provider.isStickerPro(type, sticker);
+
+              return buildStickerItem(
+                context: context,
+                sticker: sticker,
+                isLocked: isPro,
+                isViewOnly: false, 
+                onSelected: () => onStickerSelected(sticker),
+                onShowProDetail:
+                    () => stickerShopDetail(
+                      context: context,
+                      scrollController: ScrollController(),
+                      stickerType: type,
+                      allStickerPro: provider.proSticker,
+                      thumbList: provider.thumb,
+                      recentsStickerList: [],
+                      chatContentList: [],
+                    ),
               );
             },
           ),

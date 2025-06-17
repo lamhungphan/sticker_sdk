@@ -18,74 +18,33 @@ class StickerProvider with ChangeNotifier {
   String? _error;
   String? get error => _error;
 
-  // Gọi cùng lúc để dễ kiểm tra isLoading hay không
   Future<void> loadAllStickers() async {
-    _isLoading = true;
-    _error = null;
-
-    notifyListeners();
-
+    _setLoading(true);
     try {
-      final results = await Future.wait([
+      final [all, pro, thumb] = await Future.wait([
         StickerApi.fetchAllStickers(),
         StickerApi.fetchProStickers(),
         StickerApi.fetchThumb(),
       ]);
 
-      _allSticker = results[0] as Map<String, List<Sticker>>;
-      _proSticker = results[1] as Map<String, List<Sticker>>;
-      _thumb = results[2] as List<Sticker>;
+      _allSticker = all as Map<String, List<Sticker>>;
+      _proSticker = pro as Map<String, List<Sticker>>;
+      _thumb = thumb as List<Sticker>;
     } catch (e) {
       _error = e.toString();
+    } finally {
+      _setLoading(false);
     }
+  }
 
-    _isLoading = false;
-
+  void _setLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
   }
 
-  // Future<void> getAllSticker() async {
-  //   _isLoading = true;
-  //   _error = null;
-  //   notifyListeners();
-
-  //   try {
-  //     _allSticker = await StickerApi.fetchAllStickers();
-  //   } catch (e) {
-  //     _error = e.toString();
-  //   }
-
-  //   _isLoading = false;
-  //   notifyListeners();
-  // }
-
-  // Future<void> getProSticker() async {
-  //   _isLoading = true;
-  //   _error = null;
-  //   notifyListeners();
-
-  //   try {
-  //     _proSticker = await StickerApi.fetchProStickers();
-  //   } catch (e) {
-  //     _error = e.toString();
-  //   }
-
-  //   _isLoading = false;
-  //   notifyListeners();
-  // }
-
-  // Future<void> getThumb() async {
-  //   _isLoading = true;
-  //   _error = null;
-  //   notifyListeners();
-
-  //   try {
-  //     _thumb = await StickerApi.fetchThumb();
-  //   } catch (e) {
-  //     _error = e.toString();
-  //   }
-
-  //   _isLoading = false;
-  //   notifyListeners();
-  // }
+  bool isStickerPro(String type, Sticker sticker) {
+    final proList = _proSticker[type];
+    if (proList == null) return false;
+    return proList.any((s) => s.path == sticker.path);
+  }
 }
