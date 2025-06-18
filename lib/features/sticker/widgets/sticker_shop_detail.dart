@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sticker_app/features/sticker/pages/checkout_page.dart';
 import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
@@ -92,11 +93,15 @@ Future stickerShopDetail({
                               ),
                               color: Colors.blue,
                               onPressed: () {
-                                // Biến các sticker này isPro = false
-                                // và đưa vào nhóm sticker đó
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => 
+                                      const CheckoutPage(key: Key('checkout')),
+                                  ),
+                                );
                               },
                               child: const Text(
-                                'Add to Library',
+                                'Checkout',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ),

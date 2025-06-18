@@ -9,6 +9,7 @@ Widget buildStickerItem({
   required bool isViewOnly,
   required VoidCallback onSelected,
   required VoidCallback onShowProDetail,
+  bool showLockIcon = true,
 }) {
   return GestureDetector(
     onTap: () {
@@ -25,14 +26,7 @@ Widget buildStickerItem({
     onLongPressEnd: (_) => hideStickerPreview(),
     child: Stack(
       alignment: Alignment.center,
-      children: [
-        Opacity(
-          opacity: isLocked ? 0.5 : 1.0,
-          child: Image.network(sticker.path),
-        ),
-        if (isLocked)
-          const Icon(Icons.lock, color: Colors.red),
-      ],
+      children: [Image.network(sticker.path), if (isLocked && showLockIcon) const Icon(Icons.lock, color: Colors.red)],
     ),
   );
 }
@@ -57,4 +51,3 @@ void handleStickerTap({
     onSelected();
   }
 }
-

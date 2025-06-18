@@ -42,13 +42,10 @@ class _StickerFilteredState extends State<StickerFiltered> {
         // Nếu thumb được chọn là Recents
         (widget.currentStickerType == 'Recents')
             // Thì lấy tất cả các loại Sticker
-            ? Map<String, List<Sticker>>.fromEntries(
-              widget.allStickerList.entries.take(5),
-            )
+            ? Map<String, List<Sticker>>.fromEntries(widget.allStickerList.entries.take(5))
             // Còn không thì lấy tất cả Sticker của 1 loại Sticker
             : <String, List<Sticker>>{
-              widget.currentStickerType:
-                  widget.allStickerList[widget.currentStickerType] ?? [],
+              widget.currentStickerType: widget.allStickerList[widget.currentStickerType] ?? [],
             };
 
     return Expanded(
@@ -61,9 +58,7 @@ class _StickerFilteredState extends State<StickerFiltered> {
                   final String stickerType = entry.key;
                   // Lấy value là tất cả các Sticker
                   final List<Sticker> stickers =
-                      (widget.currentStickerType == 'Recents')
-                          ? entry.value.take(5).toList()
-                          : entry.value;
+                      (widget.currentStickerType == 'Recents') ? entry.value.take(5).toList() : entry.value;
 
                   return stickers.isNotEmpty
                       ? [
@@ -73,10 +68,7 @@ class _StickerFilteredState extends State<StickerFiltered> {
                           stickerType: stickerType,
                           stickerCount: entry.value.length,
                           showCount: false,
-                          isViewOnly:
-                              widget.currentStickerType == 'Recents'
-                                  ? false
-                                  : true,
+                          isViewOnly: widget.currentStickerType == 'Recents' ? false : true,
                           isRecentSelected: widget.isRecentSelected,
                           thumbList: widget.thumbList,
                           onStickerTypeChanged: (String newType) {
@@ -93,15 +85,13 @@ class _StickerFilteredState extends State<StickerFiltered> {
                           stickers: stickers,
                           stickerType: stickerType,
                           scrollController: widget.scrollController,
-                          isViewOnly:
-                              widget.currentStickerType == 'Recents'
-                                  ? true
-                                  : false,
+                          isViewOnly: widget.currentStickerType == 'Recents' ? true : false,
                           isLocked: true,
                           thumbList: widget.thumbList,
                           recentsStickerList: widget.recentsStickerList,
                           chatContentList: widget.chatContentList,
                           allStickerPro: widget.allStickerPro,
+                          showLockIcon: true,
                         ),
                       ]
                       : [];

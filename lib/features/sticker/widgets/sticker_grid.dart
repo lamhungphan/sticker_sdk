@@ -17,6 +17,7 @@ class StickerGrid extends StatefulWidget {
     required this.recentsStickerList,
     required this.chatContentList,
     required this.allStickerPro,
+    this.showLockIcon = false,
   });
 
   List<Sticker> stickers;
@@ -24,6 +25,7 @@ class StickerGrid extends StatefulWidget {
   ScrollController scrollController;
   bool isViewOnly = false;
   bool isLocked = false;
+  bool showLockIcon = false;
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
   List<ChatContent> chatContentList;
@@ -70,6 +72,7 @@ class _StickerGridState extends State<StickerGrid> {
               chatContentList: widget.chatContentList,
             );
           },
+          showLockIcon: widget.showLockIcon,
         );
       }, childCount: widget.stickers.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
