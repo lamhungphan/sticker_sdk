@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/features/sticker/provider/photo_provider.dart';
 import 'package:sticker_app/features/sticker/widgets/sticker_remove_bg.dart';
+import 'package:sticker_app/models/sticker.dart';
 
-void customStickerUploader({required BuildContext context}) {
+void customStickerUploader({required BuildContext context, required Null Function(Sticker sticker) onStickerSelected}) {
   FocusScope.of(context).unfocus();
 
   final double screenSize = MediaQuery.of(context).size.width;
@@ -11,10 +12,7 @@ void customStickerUploader({required BuildContext context}) {
   showModalBottomSheet(
     barrierColor: Colors.transparent,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10),
-        topRight: Radius.circular(10),
-      ),
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       side: BorderSide(width: 0.5),
     ),
     isScrollControlled: true,
@@ -47,21 +45,12 @@ void customStickerUploader({required BuildContext context}) {
                 initialChildSize: 0.85,
                 maxChildSize: 0.85,
                 expand: false,
-                builder: (
-                  BuildContext context,
-                  ScrollController scrollController,
-                ) {
+                builder: (BuildContext context, ScrollController scrollController) {
                   return Column(
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: screenSize * 0.02),
-                        child: const Text(
-                          'All Photo',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: const Text('All Photo', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: screenSize * 0.02),
@@ -70,12 +59,11 @@ void customStickerUploader({required BuildContext context}) {
                       Expanded(
                         child: GridView.builder(
                           controller: scrollController,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 2,
-                                crossAxisSpacing: 2,
-                              ),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 2,
+                          ),
                           itemCount: images.length,
                           itemBuilder: (BuildContext context, int index) {
                             final file = photoProvider.getFile(index);
@@ -84,14 +72,18 @@ void customStickerUploader({required BuildContext context}) {
                               // Load file tại vị trí index
                               photoProvider.loadFileForIndex(index);
 
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              return const Center(child: CircularProgressIndicator());
                             }
 
                             return GestureDetector(
                               onTap: () async {
-                                imageOverlay(context, file);
+                                imageOverlay(
+                                  context: context,
+                                  imageFile: file,
+                                  onStickerSelected: (sticker) {
+                                    
+                                  },
+                                );
                               },
                               child: Container(
                                 decoration: const BoxDecoration(

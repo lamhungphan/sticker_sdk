@@ -46,6 +46,7 @@ class StickerTypeViewer extends StatelessWidget {
                 sticker: sticker,
                 isLocked: isPro,
                 isViewOnly: false, 
+                showLockIcon: sticker.isPro,
                 onSelected: () => onStickerSelected(sticker),
                 onShowProDetail:
                     () => stickerShopDetail(
