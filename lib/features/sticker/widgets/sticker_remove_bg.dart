@@ -10,20 +10,19 @@ void imageOverlay({
   required File imageFile,
   required void Function(Sticker sticker) onStickerSelected,
 }) {
+  bool isLoading = false;
+  bool isCutDone = false;
+  File? displayedImage = imageFile;
   final double screenSize = MediaQuery.of(context).size.width;
 
   late void Function(void Function()) setState;
 
-  bool isLoading = false;
-  bool isCutDone = false;
-
-  File? displayedImage = imageFile;
-
   _imgOverlay = OverlayEntry(
     builder: (BuildContext overlayEntryContext) {
       return StatefulBuilder(
-        builder: (BuildContext context, void Function(void Function()) setStateOverlay) {
+        builder: (context, setStateOverlay) {
           setState = setStateOverlay;
+
           return Stack(
             children: [
               Container(color: Colors.black.withOpacity(0.7)),
@@ -34,51 +33,50 @@ void imageOverlay({
                     child:
                         isLoading
                             ? const Center(child: CircularProgressIndicator())
-                            : Padding(padding: const EdgeInsets.all(16), child: Image.file(displayedImage!)),
+                            : Padding(
+                              padding: const EdgeInsets.all(16),
+                              child:
+                                  displayedImage != null
+                                      ? Image.file(displayedImage!, fit: BoxFit.contain)
+                                      : const Center(child: Text('Không có ảnh')),
+                            ),
                   ),
                   Row(
                     children: [
-                      IconButton(onPressed: hideImage, icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
+                      IconButton(icon: const Icon(Icons.arrow_back_ios, color: Colors.white), onPressed: hideImage),
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () async {
+                            if (displayedImage == null) return;
+
                             if (isCutDone) {
-                              // Tạo sticker object từ file đã xử lý
                               final newSticker = Sticker(
-                                id: DateTime.now().millisecondsSinceEpoch.toString(), // ID tạm thời
+                                id: DateTime.now().millisecondsSinceEpoch.toString(),
                                 path: displayedImage!.path,
                                 type: 'Custom',
                                 isPro: false,
                               );
-
-                              // Ẩn overlay trước khi gọi callback
                               hideImage();
-
-                              // Gọi callback để sử dụng sticker
                               onStickerSelected(newSticker);
                             } else {
-                              // Tiến hành cắt nền
                               setState(() => isLoading = true);
 
-                              final File? removedBg = await RemoveBgService.removeBackground(imageFile);
+                              final File? removedBg = await RemoveBgService.removeBackground(displayedImage!);
 
                               if (removedBg != null) {
                                 setState(() {
+                                  displayedImage = removedBg;
                                   isLoading = false;
                                   isCutDone = true;
-                                  displayedImage = removedBg;
-                                  print('Hinh anh cat thanh cong '+displayedImage!.path);
                                 });
-                                
+                                debugPrint('Hình ảnh cắt thành công: ${removedBg.path}');
                               } else {
                                 setState(() => isLoading = false);
-
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(
                                     context,
                                   ).showSnackBar(const SnackBar(content: Text('Không thể xoá nền ảnh')));
                                 }
-
                                 hideImage();
                               }
                             }
@@ -103,7 +101,6 @@ void imageOverlay({
       );
     },
   );
-
   Overlay.of(context).insert(_imgOverlay!);
 }
 
