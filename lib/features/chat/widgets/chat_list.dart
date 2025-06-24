@@ -2,8 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_category_page.dart';
+import 'package:sticker_app/features/sticker/pages/relative_sticker_page.dart';
 import 'package:sticker_app/models/chat_content.dart';
+import 'package:sticker_app/models/category.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
@@ -33,9 +34,9 @@ class ChatList extends StatelessWidget {
                 height: screenSize * 0.25,
                 child: GestureDetector(
                   onTap: () async {
-                    final stickerType = content.sticker?.categoryId;
+                    final category = content.sticker?.categoryId;
 
-                    if (stickerType != null && stickerType.isNotEmpty) {
+                    if (category != null && category.isNotEmpty) {
                       final provider = Provider.of<StickerProvider>(context, listen: false);
 
                       if (provider.allSticker.isEmpty) {
@@ -50,8 +51,8 @@ class ChatList extends StatelessWidget {
                         builder: (ctx) {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.6,
-                            child: StickerTypeViewer(
-                              type: stickerType,
+                            child: RelativeStickerPage(
+                              category: Category(id: category, name: category, imagePath: '', price: 0),
                               onStickerSelected: (sticker) {
                                 final newMessage = ChatContent(sticker: sticker as Sticker?);
                                 onStickerSelected(newMessage);

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_search.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_category.dart';
+import 'package:sticker_app/features/sticker/widgets/grid_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/search_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/category_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
+import 'package:sticker_app/models/category.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
-class StickerShop extends StatefulWidget {
-  StickerShop({
+class ShopWidget extends StatefulWidget {
+  ShopWidget({
     super.key,
     required this.modalSetState,
     required this.scrollController,
@@ -26,10 +27,10 @@ class StickerShop extends StatefulWidget {
   List<ChatContent> chatContentList;
 
   @override
-  State<StickerShop> createState() => _StickerShopState();
+  State<ShopWidget> createState() => _ShopWidgetState();
 }
 
-class _StickerShopState extends State<StickerShop> {
+class _ShopWidgetState extends State<ShopWidget> {
   String? _matchedStickerType;
 
   @override
@@ -82,7 +83,7 @@ class _StickerShopState extends State<StickerShop> {
         Flexible(
           child: Padding(
             padding: EdgeInsets.only(top: screenSize * 0.01, bottom: screenSize * 0.005, right: screenSize * 0.01),
-            child: StickerSearch(
+            child: SearchWidget(
               types: widget.allStickerPro.keys.toList(),
               onMatched: (matchedType) {
                 modalSetState(() {
@@ -117,18 +118,18 @@ class _StickerShopState extends State<StickerShop> {
                 // Nếu sticker rỗng, trả rỗng
                 return stickers.isNotEmpty
                     ? [
-                      StickerCategory(
+                      CategoryWidget(
                         modalSetState: modalSetState,
                         scrollController: scrollController,
-                        stickerType: stickerType,
+                        category: Category(id: stickerType, name: stickerType, imagePath: '', price: 0),
                         stickerCount: entry.value.length,
                         showCount: true,
                         isRecentSelected: widget.isRecentSelected,
                         thumbList: widget.thumbList,
-                        isViewOnly: true,
+                        // isViewOnly: true,
                         onStickerTypeChanged: (_) {},
                       ),
-                      StickerGrid(
+                      GridWidget(
                         stickers: stickers,
                         stickerType: stickerType,
                         scrollController: scrollController,

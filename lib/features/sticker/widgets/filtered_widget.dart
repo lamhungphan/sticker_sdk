@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_category.dart';
+import 'package:sticker_app/features/sticker/widgets/grid_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/category_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
+import 'package:sticker_app/models/category.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
-class StickerFiltered extends StatefulWidget {
-  StickerFiltered({
+class FilteredWidget extends StatefulWidget {
+  FilteredWidget({
     super.key,
     required this.currentStickerType,
     required this.allStickerList,
@@ -32,10 +33,10 @@ class StickerFiltered extends StatefulWidget {
   Function(String) onStickerTypeChanged;
 
   @override
-  State<StickerFiltered> createState() => _StickerFilteredState();
+  State<FilteredWidget> createState() => _FilteredWidgetState();
 }
 
-class _StickerFilteredState extends State<StickerFiltered> {
+class _FilteredWidgetState extends State<FilteredWidget> {
   @override
   Widget build(BuildContext context) {
     final Map<String, List<Sticker>> filteredStickers =
@@ -62,13 +63,17 @@ class _StickerFilteredState extends State<StickerFiltered> {
 
                   return stickers.isNotEmpty
                       ? [
-                        StickerCategory(
+                        CategoryWidget(
                           modalSetState: widget.modalSetState,
                           scrollController: widget.scrollController,
-                          stickerType: stickerType,
+                          category: Category(
+                            id: stickerType,
+                            name: stickerType,
+                            imagePath: '',
+                            price: 0,
+                          ),
                           stickerCount: entry.value.length,
                           showCount: false,
-                          isViewOnly: widget.currentStickerType == 'Recents' ? false : true,
                           isRecentSelected: widget.isRecentSelected,
                           thumbList: widget.thumbList,
                           onStickerTypeChanged: (String newType) {
@@ -81,7 +86,7 @@ class _StickerFilteredState extends State<StickerFiltered> {
                             widget.onStickerTypeChanged(newType);
                           },
                         ),
-                        StickerGrid(
+                        GridWidget(
                           stickers: stickers,
                           stickerType: stickerType,
                           scrollController: widget.scrollController,

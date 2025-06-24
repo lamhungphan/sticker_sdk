@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_filtered.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_search.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_thumb.dart';
+import 'package:sticker_app/features/sticker/widgets/filtered_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/search_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/thumb_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
@@ -87,7 +87,7 @@ class _StickerPageState extends State<StickerPage> {
 
     return Column(
       children: [
-        StickerThumb(
+        ThumbWidget(
           modalSetState: widget.modalSetState,
           scrollController: widget.scrollController,
           allStickerPro: allStickerPro,
@@ -105,7 +105,7 @@ class _StickerPageState extends State<StickerPage> {
         ),
         Padding(
           padding: EdgeInsets.only(top: screenSize * 0.02, bottom: screenSize * 0.01),
-          child: StickerSearch(
+          child: SearchWidget(
             types: allStickerList.keys.toList(),
             onMatched: (String matchedType) {
               widget.modalSetState(() {
@@ -122,7 +122,7 @@ class _StickerPageState extends State<StickerPage> {
           ),
         ),
 
-        StickerFiltered(
+        FilteredWidget(
           currentStickerType: currentStickerType,
           allStickerList: allStickerList,
           scrollController: widget.scrollController,

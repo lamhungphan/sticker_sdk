@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_app/core/utils/sticker_builder.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_shop_detail.dart';
+import 'package:sticker_app/features/sticker/widgets/shop_detail_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
-class StickerGrid extends StatefulWidget {
-  StickerGrid({
+class GridWidget extends StatefulWidget {
+  GridWidget({
     super.key,
     required this.stickers,
     required this.stickerType,
@@ -32,10 +32,10 @@ class StickerGrid extends StatefulWidget {
   Map<String, List<Sticker>> allStickerPro;
 
   @override
-  State<StickerGrid> createState() => _StickerGridState();
+  State<GridWidget> createState() => _GridWidgetState();
 }
 
-class _StickerGridState extends State<StickerGrid> {
+class _GridWidgetState extends State<GridWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
@@ -62,7 +62,7 @@ class _StickerGridState extends State<StickerGrid> {
             FocusScope.of(context).unfocus();
           },
           onShowProDetail: () {
-            stickerShopDetail(
+            shopDetailWidget(
               context: context,
               scrollController: widget.scrollController,
               stickerType: widget.stickerType,

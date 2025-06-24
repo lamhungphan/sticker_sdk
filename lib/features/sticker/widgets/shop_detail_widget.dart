@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_app/features/sticker/pages/checkout_page.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
+import 'package:sticker_app/features/sticker/widgets/grid_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
-Future stickerShopDetail({
+Future shopDetailWidget({
   required BuildContext context,
   required ScrollController scrollController,
   required String stickerType,
@@ -62,7 +62,7 @@ Future stickerShopDetail({
                     ),
                     SliverPadding(
                       padding: EdgeInsets.all(screenSize * 0.01),
-                      sliver: StickerGrid(
+                      sliver: GridWidget(
                         stickers: allStickerPro[stickerType] ?? [],
                         stickerType: stickerType,
                         scrollController: scrollController,

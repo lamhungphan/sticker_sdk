@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class StickerRecent extends StatefulWidget {
-  StickerRecent({
+class RecentStickerWidget extends StatefulWidget {
+  RecentStickerWidget({
     super.key,
     required this.isRecentSelected,
     required this.modalSetState,
@@ -18,10 +18,10 @@ class StickerRecent extends StatefulWidget {
   Function(String) onStickerTypeChanged;
 
   @override
-  State<StickerRecent> createState() => _StickerRecentState();
+  State<RecentStickerWidget> createState() => _RecentStickerWidgetState();
 }
 
-class _StickerRecentState extends State<StickerRecent> {
+class _RecentStickerWidgetState extends State<RecentStickerWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

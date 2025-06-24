@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
-class StickerSearch extends StatelessWidget {
+class SearchWidget extends StatelessWidget {
   final List<String> types;
   final Function(String matchedType) onMatched;
   final Function() onEmpty;
 
-  const StickerSearch({
+  const SearchWidget({
     super.key,
     required this.types,
     required this.onMatched,

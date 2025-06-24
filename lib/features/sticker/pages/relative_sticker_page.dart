@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/core/utils/sticker_builder.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_shop_detail.dart';
+import 'package:sticker_app/features/sticker/widgets/shop_detail_widget.dart';
+import 'package:sticker_app/models/category.dart';
 import 'package:sticker_app/models/sticker.dart';
 
-class StickerTypeViewer extends StatelessWidget {
-  final String type;
+class RelativeStickerPage extends StatelessWidget {
+  final Category category;
   final void Function(Sticker sticker) onStickerSelected;
 
-  const StickerTypeViewer({super.key, required this.type, required this.onStickerSelected});
+  const RelativeStickerPage({super.key, required this.category, required this.onStickerSelected});
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StickerProvider>(context);
-    final stickerList = provider.allSticker[type] ?? [];
+    final stickerList = provider.allSticker[category.name] ?? [];
 
     if (provider.isLoading) return const Center(child: CircularProgressIndicator());
     if (provider.error != null) return Center(child: Text('Lỗi: ${provider.error}'));
@@ -26,7 +27,7 @@ class StickerTypeViewer extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.all(screenSize * 0.04),
-          child: Text(type, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          child: Text(category.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ),
         Expanded(
           child: GridView.builder(
@@ -39,20 +40,20 @@ class StickerTypeViewer extends StatelessWidget {
             itemCount: stickerList.length,
             itemBuilder: (context, index) {
               final sticker = stickerList[index];
-              final isPro = provider.isStickerPremium(type, sticker);
+              final isPremium = provider.isStickerPremium(category.name, sticker);
 
               return buildStickerItem(
                 context: context,
                 sticker: sticker,
-                isLocked: isPro,
+                isLocked: isPremium,
                 isViewOnly: false, 
                 showLockIcon: sticker.isPremium,
                 onSelected: () => onStickerSelected(sticker),
                 onShowProDetail:
-                    () => stickerShopDetail(
+                    () => shopDetailWidget(
                       context: context,
                       scrollController: ScrollController(),
-                      stickerType: type,
+                      stickerType: category.name  ,
                       allStickerPro: provider.premiumSticker,
                       thumbList: provider.thumb,
                       recentsStickerList: [],

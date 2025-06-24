@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_add.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_recent.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_shop.dart';
+import 'package:sticker_app/features/sticker/widgets/add_sticker_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/recent_sticker_widget.dart';
+import 'package:sticker_app/features/sticker/widgets/shop_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
-class StickerThumb extends StatefulWidget {
-  StickerThumb({
+class ThumbWidget extends StatefulWidget {
+  ThumbWidget({
     super.key,
     required this.modalSetState,
     required this.scrollController,
@@ -31,10 +31,10 @@ class StickerThumb extends StatefulWidget {
   Function(String) onStickerTypeChanged;
 
   @override
-  State<StickerThumb> createState() => _StickerThumbState();
+  State<ThumbWidget> createState() => _ThumbWidgetState();
 }
 
-class _StickerThumbState extends State<StickerThumb> {
+class _ThumbWidgetState extends State<ThumbWidget> {
   @override
   Widget build(BuildContext context) {
     final double screenSize = MediaQuery.of(context).size.width;
@@ -44,7 +44,7 @@ class _StickerThumbState extends State<StickerThumb> {
       child: Row(
         children: [
           // Tạo thumb cho shop Sticker
-          StickerShop(
+          ShopWidget(
             modalSetState: widget.modalSetState,
             scrollController: widget.scrollController,
             allStickerPro: widget.allStickerPro,
@@ -58,10 +58,10 @@ class _StickerThumbState extends State<StickerThumb> {
               left: screenSize * 0.04,
               right: screenSize * 0.02,
             ),
-            child: const StickerAdd(),
+            child: const AddStickerWidget(),
           ),
           // Tạo thumbnail cho recents Sticker
-          StickerRecent(
+          RecentStickerWidget(
             isRecentSelected: widget.isRecentSelected,
             modalSetState: widget.modalSetState,
             currentStickerType: widget.currentStickerType,

@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_remove_bg.dart';
-import 'package:sticker_app/models/sticker.dart';
+import 'package:sticker_app/features/sticker/pages/edit_sticker_page.dart';
 
-class StickerAdd extends StatelessWidget {
-  const StickerAdd({super.key});
+class AddStickerWidget extends StatelessWidget {
+  const AddStickerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +19,8 @@ class StickerAdd extends StatelessWidget {
         }
 
         final File imageFile = File(pickedFile.path);
-        imageOverlay(
-          context: context,
-          imageFile: imageFile,
-          onStickerSelected: (Sticker sticker) {
-            // TODO: Handle the selected sticker
-          },
-        );
+       
+        EditStickerPage.open(context, imageFile);
       },
       child: const Icon(Icons.add_reaction_outlined, size: 25),
     );
