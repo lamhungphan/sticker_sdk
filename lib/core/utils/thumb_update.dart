@@ -1,6 +1,6 @@
 import 'package:sticker_app/models/sticker.dart';
 
-void updateThumbnailSticker({
+void updateThumbnail({
   required List<Sticker> stickerThumb,
   required String stickerType,
 }) {

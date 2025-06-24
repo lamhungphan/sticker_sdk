@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sticker_app/core/utils/sticker_builder.dart';
+import 'package:sticker_app/core/utils/item_builder.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
 import 'package:sticker_app/features/sticker/widgets/shop_detail_widget.dart';
 import 'package:sticker_app/models/category.dart';
@@ -42,7 +42,7 @@ class RelativeStickerPage extends StatelessWidget {
               final sticker = stickerList[index];
               final isPremium = provider.isStickerPremium(category.name, sticker);
 
-              return buildStickerItem(
+              return itemBuilder(
                 context: context,
                 sticker: sticker,
                 isLocked: isPremium,

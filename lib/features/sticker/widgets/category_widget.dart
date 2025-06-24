@@ -43,7 +43,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
             widget.category.name != 'Recents'
                 ? setState(() {
-                  updateThumbnailSticker(stickerThumb: widget.thumbList, stickerType: widget.category.name);
+                  updateThumbnail(stickerThumb: widget.thumbList, stickerType: widget.category.name);
                 })
                 : widget.isRecentSelected = true;
 

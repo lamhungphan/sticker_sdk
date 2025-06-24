@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_app/core/utils/sticker_builder.dart';
+import 'package:sticker_app/core/utils/item_builder.dart';
 import 'package:sticker_app/features/sticker/widgets/shop_detail_widget.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
@@ -42,7 +42,7 @@ class _GridWidgetState extends State<GridWidget> {
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         final Sticker sticker = widget.stickers[index];
 
-        return buildStickerItem(
+        return itemBuilder(
           context: context,
           sticker: sticker,
           isLocked: sticker.isPremium && widget.isLocked,
