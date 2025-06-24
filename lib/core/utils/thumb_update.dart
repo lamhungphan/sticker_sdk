@@ -6,10 +6,10 @@ void updateThumbnailSticker({
 }) {
   // Tìm thumb đó trên thanh thumb bar
   final Sticker thumb = stickerThumb.firstWhere(
-    (Sticker sticker) => sticker.type == stickerType,
+    (Sticker sticker) => sticker.categoryId == stickerType,
   );
   // Nếu đã có, xóa thumbnail
-  stickerThumb.removeWhere((Sticker s) => s.type == stickerType);
+  stickerThumb.removeWhere((Sticker s) => s.categoryId == stickerType);
   // Thêm lại vào đầu danh sách
   stickerThumb.insert(0, thumb);
 }

@@ -26,7 +26,7 @@ Widget buildStickerItem({
     onLongPressEnd: (_) => hideStickerPreview(),
     child: Stack(
       alignment: Alignment.center,
-      children: [Image.network(sticker.path), if (isLocked && showLockIcon) const Icon(Icons.lock, color: Colors.red)],
+      children: [Image.network(sticker.imagePath), if (isLocked && showLockIcon) const Icon(Icons.lock, color: Colors.red)],
     ),
   );
 }
@@ -39,7 +39,7 @@ void handleStickerTap({
   required VoidCallback onSelected,
   required VoidCallback onShowProDetail,
 }) {
-  if (sticker.isPro) {
+  if (sticker.isPremium) {
     if (isLocked) {
       onShowProDetail();
     }

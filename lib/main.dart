@@ -6,7 +6,7 @@ import 'package:sticker_app/features/friend/provider/user_provider.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   try {
     await dotenv.load(fileName: ".env");

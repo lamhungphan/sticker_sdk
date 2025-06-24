@@ -45,13 +45,13 @@ class _StickerGridState extends State<StickerGrid> {
         return buildStickerItem(
           context: context,
           sticker: sticker,
-          isLocked: sticker.isPro && widget.isLocked,
+          isLocked: sticker.isPremium && widget.isLocked,
           isViewOnly: false,
           onSelected: () {
             Navigator.of(context).pop();
 
             setState(() {
-              widget.recentsStickerList.removeWhere((s) => s.path == sticker.path);
+              widget.recentsStickerList.removeWhere((s) => s.imagePath == sticker.imagePath);
               widget.recentsStickerList.insert(0, sticker);
 
               if (widget.recentsStickerList.length > 5) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_show_type.dart';
+import 'package:sticker_app/features/sticker/widgets/sticker_category.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
@@ -62,7 +62,7 @@ class _StickerFilteredState extends State<StickerFiltered> {
 
                   return stickers.isNotEmpty
                       ? [
-                        StickerShowType(
+                        StickerCategory(
                           modalSetState: widget.modalSetState,
                           scrollController: widget.scrollController,
                           stickerType: stickerType,

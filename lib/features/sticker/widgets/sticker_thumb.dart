@@ -87,8 +87,8 @@ class _StickerThumbState extends State<StickerThumb> {
     // Lấy thumbnail hiện lên giao diện
     return List.generate(widget.thumbList.length, (int index) {
       Sticker thumbnail = widget.thumbList[index];
-      // thumbnail.type == currentStickerType ? isThumbnailSelected = true : false
-      bool isThumbnailSelected = thumbnail.type == widget.currentStickerType;
+      // thumbnail.categoryId == currentStickerType ? isThumbnailSelected = true : false
+      bool isThumbnailSelected = thumbnail.categoryId == widget.currentStickerType;
 
       final double screenSize = MediaQuery.of(context).size.width;
 
@@ -97,7 +97,7 @@ class _StickerThumbState extends State<StickerThumb> {
         child: GestureDetector(
           onTap: () {
             modalSetState(() {
-              widget.onStickerTypeChanged(thumbnail.type);
+              widget.onStickerTypeChanged(thumbnail.categoryId);
               scrollController.jumpTo(0);
             });
           },
@@ -114,7 +114,7 @@ class _StickerThumbState extends State<StickerThumb> {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Image(
-              image: NetworkImage(thumbnail.path),
+              image: NetworkImage(thumbnail.imagePath),
               fit: BoxFit.cover,
             ),
           ),

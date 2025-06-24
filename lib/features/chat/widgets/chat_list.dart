@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_type_viewer.dart';
+import 'package:sticker_app/features/sticker/widgets/sticker_category_page.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
@@ -14,10 +14,10 @@ class ChatList extends StatelessWidget {
   final void Function(ChatContent newContent) onStickerSelected;
 
   Widget _buildStickerImage(Sticker sticker) {
-    final isLocal = sticker.path.startsWith('/') || sticker.path.startsWith('file://');
+    final isLocal = sticker.imagePath.startsWith('/') || sticker.imagePath.startsWith('file://');
     return isLocal
-        ? Image.file(File(sticker.path), fit: BoxFit.contain)
-        : Image.network(sticker.path, fit: BoxFit.contain);
+        ? Image.file(File(sticker.imagePath), fit: BoxFit.contain)
+        : Image.network(sticker.imagePath, fit: BoxFit.contain);
   }
 
   @override
@@ -33,7 +33,7 @@ class ChatList extends StatelessWidget {
                 height: screenSize * 0.25,
                 child: GestureDetector(
                   onTap: () async {
-                    final stickerType = content.sticker?.type;
+                    final stickerType = content.sticker?.categoryId;
 
                     if (stickerType != null && stickerType.isNotEmpty) {
                       final provider = Provider.of<StickerProvider>(context, listen: false);
@@ -53,7 +53,7 @@ class ChatList extends StatelessWidget {
                             child: StickerTypeViewer(
                               type: stickerType,
                               onStickerSelected: (sticker) {
-                                final newMessage = ChatContent(sticker: sticker);
+                                final newMessage = ChatContent(sticker: sticker as Sticker?);
                                 onStickerSelected(newMessage);
                                 Navigator.pop(context);
                               },

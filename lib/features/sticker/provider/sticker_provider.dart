@@ -6,8 +6,8 @@ class StickerProvider with ChangeNotifier {
   Map<String, List<Sticker>> _allSticker = {};
   Map<String, List<Sticker>> get allSticker => _allSticker;
 
-  Map<String, List<Sticker>> _proSticker = {};
-  Map<String, List<Sticker>> get proSticker => _proSticker;
+  Map<String, List<Sticker>> _premiumSticker = {};
+  Map<String, List<Sticker>> get premiumSticker => _premiumSticker;
 
   List<Sticker> _thumb = [];
   List<Sticker> get thumb => _thumb;
@@ -23,12 +23,12 @@ class StickerProvider with ChangeNotifier {
     try {
       final [all, pro, thumb] = await Future.wait([
         StickerApi.fetchAllStickers(),
-        StickerApi.fetchProStickers(),
+        StickerApi.fetchPremiumStickers(),
         StickerApi.fetchThumb(),
       ]);
 
       _allSticker = all as Map<String, List<Sticker>>;
-      _proSticker = pro as Map<String, List<Sticker>>;
+      _premiumSticker = pro as Map<String, List<Sticker>>;
       _thumb = thumb as List<Sticker>;
     } catch (e) {
       _error = e.toString();
@@ -42,9 +42,9 @@ class StickerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isStickerPro(String type, Sticker sticker) {
-    final proList = _proSticker[type];
-    if (proList == null) return false;
-    return proList.any((s) => s.path == sticker.path);
+  bool isStickerPremium(String categoryId, Sticker sticker) {
+    final premiumList = _premiumSticker[categoryId];
+    if (premiumList == null) return false;
+    return premiumList.any((s) => s.imagePath == sticker.imagePath);
   }
 }

@@ -39,21 +39,21 @@ class StickerTypeViewer extends StatelessWidget {
             itemCount: stickerList.length,
             itemBuilder: (context, index) {
               final sticker = stickerList[index];
-              final isPro = provider.isStickerPro(type, sticker);
+              final isPro = provider.isStickerPremium(type, sticker);
 
               return buildStickerItem(
                 context: context,
                 sticker: sticker,
                 isLocked: isPro,
                 isViewOnly: false, 
-                showLockIcon: sticker.isPro,
+                showLockIcon: sticker.isPremium,
                 onSelected: () => onStickerSelected(sticker),
                 onShowProDetail:
                     () => stickerShopDetail(
                       context: context,
                       scrollController: ScrollController(),
                       stickerType: type,
-                      allStickerPro: provider.proSticker,
+                      allStickerPro: provider.premiumSticker,
                       thumbList: provider.thumb,
                       recentsStickerList: [],
                       chatContentList: [],

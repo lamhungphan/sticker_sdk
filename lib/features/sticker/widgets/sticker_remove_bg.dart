@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:sticker_app/models/sticker.dart';
 import 'package:sticker_app/services/remove_bg_api.dart';
-
-OverlayEntry? _imgOverlay;
+import 'package:sticker_app/services/sticker_api.dart';
 
 void imageOverlay({
   required BuildContext context,
@@ -43,46 +42,65 @@ void imageOverlay({
                   ),
                   Row(
                     children: [
-                      IconButton(icon: const Icon(Icons.arrow_back_ios, color: Colors.white), onPressed: hideImage),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                        onPressed: () {
+                          hideImage();
+                        },
+                      ),
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () async {
                             if (displayedImage == null) return;
 
-                            if (isCutDone) {
-                              final newSticker = Sticker(
-                                id: DateTime.now().millisecondsSinceEpoch.toString(),
-                                path: displayedImage!.path,
-                                type: 'Custom',
-                                isPro: false,
-                              );
-                              hideImage();
-                              onStickerSelected(newSticker);
-                            } else {
+                            if (!isCutDone) {
                               setState(() => isLoading = true);
-
                               final File? removedBg = await RemoveBgService.removeBackground(displayedImage!);
+                              setState(() => isLoading = false);
 
                               if (removedBg != null) {
                                 setState(() {
                                   displayedImage = removedBg;
-                                  isLoading = false;
                                   isCutDone = true;
                                 });
                                 debugPrint('Hình ảnh cắt thành công: ${removedBg.path}');
                               } else {
-                                setState(() => isLoading = false);
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(
                                     context,
                                   ).showSnackBar(const SnackBar(content: Text('Không thể xoá nền ảnh')));
                                 }
+                                return;
+                              }
+                            } else {
+                              final newSticker = Sticker(
+                                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                                imagePath: displayedImage!.path,
+                                categoryId: 'Custom',
+                                isPremium: false,
+                                status: 'active',
+                                usedCount: 0,
+                                tags: [],
+                              );
+
+                              setState(() => isLoading = true);
+                              final success = await StickerApi.uploadSticker(newSticker, displayedImage!);
+                              setState(() => isLoading = false);
+
+                              if (success) {
                                 hideImage();
+                                onStickerSelected(newSticker);
+                              } else {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(const SnackBar(content: Text('Không thể lưu sticker')));
+                                }
                               }
                             }
                           },
                           icon: Icon(isCutDone ? Icons.check : Icons.cut),
-                          label: Text(isCutDone ? "Dùng sticker này" : "Xoá nền ảnh"),
+                          label: Text(isCutDone ? "Lưu & Dùng sticker" : "Xoá nền ảnh"),
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: screenSize * 0.035),
                             backgroundColor: isCutDone ? Colors.green : Colors.grey,
@@ -101,8 +119,11 @@ void imageOverlay({
       );
     },
   );
+
   Overlay.of(context).insert(_imgOverlay!);
 }
+
+OverlayEntry? _imgOverlay;
 
 void hideImage() {
   _imgOverlay?.remove();

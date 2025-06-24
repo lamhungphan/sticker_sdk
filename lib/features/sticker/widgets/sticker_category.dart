@@ -3,8 +3,8 @@ import 'package:sticker_app/core/utils/thumb_update.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 // ignore: must_be_immutable
-class StickerShowType extends StatefulWidget {
-  StickerShowType({
+class StickerCategory extends StatefulWidget {
+  StickerCategory({
     super.key,
     required this.modalSetState,
     required this.scrollController,
@@ -28,10 +28,10 @@ class StickerShowType extends StatefulWidget {
   bool isViewOnly;
 
   @override
-  State<StickerShowType> createState() => _StickerShowTypeState();
+  State<StickerCategory> createState() => _StickerCategoryState();
 }
 
-class _StickerShowTypeState extends State<StickerShowType> {
+class _StickerCategoryState extends State<StickerCategory> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(

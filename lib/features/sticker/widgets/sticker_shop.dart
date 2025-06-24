@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_app/features/sticker/widgets/sticker_grid.dart';
 import 'package:sticker_app/features/sticker/widgets/sticker_search.dart';
-import 'package:sticker_app/features/sticker/widgets/sticker_show_type.dart';
+import 'package:sticker_app/features/sticker/widgets/sticker_category.dart';
 import 'package:sticker_app/models/chat_content.dart';
 import 'package:sticker_app/models/sticker.dart';
 
@@ -117,7 +117,7 @@ class _StickerShopState extends State<StickerShop> {
                 // Nếu sticker rỗng, trả rỗng
                 return stickers.isNotEmpty
                     ? [
-                      StickerShowType(
+                      StickerCategory(
                         modalSetState: modalSetState,
                         scrollController: scrollController,
                         stickerType: stickerType,

@@ -66,13 +66,13 @@ class _StickerPageState extends State<StickerPage> {
       return const Center(child: Text('No thumb found'));
     }
 
-    final hasData = provider.allSticker.isNotEmpty && provider.proSticker.isNotEmpty && provider.thumb.isNotEmpty;
+    final hasData = provider.allSticker.isNotEmpty && provider.premiumSticker.isNotEmpty && provider.thumb.isNotEmpty;
 
     if (!hasData) {
       return const Center(child: Text('No sticker found'));
     }
 
-    allStickerPro = provider.proSticker;
+    allStickerPro = provider.premiumSticker;
 
     allStickerList = provider.allSticker;
 

@@ -15,7 +15,7 @@ void showStickerPreview(BuildContext context, Sticker sticker) {
           color: Colors.black.withAlpha(128),
           alignment: Alignment.center,
           child: Image.network(
-            sticker.path,
+            sticker.imagePath,
             width: screenSize * 0.7,
             height: screenSize * 0.7,
           ),
