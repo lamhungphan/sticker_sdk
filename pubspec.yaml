@@ -41,6 +41,9 @@ dependencies:
   image_picker: ^0.8.5+3
   image_editor: ^1.6.0
 
+  star_sticker:
+    path: star_sticker
+    
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:

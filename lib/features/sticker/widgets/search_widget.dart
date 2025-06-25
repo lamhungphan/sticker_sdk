@@ -20,6 +20,7 @@ class SearchWidget extends StatelessWidget {
       height: 40,
       child: TextFormField(
         onChanged: (String query) {
+          
           if (query.trim().isEmpty) {
             onEmpty();
           } else {

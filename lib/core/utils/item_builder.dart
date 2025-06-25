@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_app/core/utils/show_preview.dart';
 import 'package:sticker_app/models/sticker.dart';
 
 Widget itemBuilder({
