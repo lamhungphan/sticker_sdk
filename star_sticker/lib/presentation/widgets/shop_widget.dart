@@ -112,7 +112,7 @@ class _ShopWidgetState extends State<ShopWidget> {
               )
               .expand((entry) {
                 // Lấy key là loại của Sticker
-                final String stickerType = entry.key;
+                final String category = entry.key;
                 // Lấy value là tất cả các Sticker
                 final List<Sticker> stickers = entry.value.take(5).toList();
                 // Nếu sticker rỗng, trả rỗng
@@ -121,17 +121,17 @@ class _ShopWidgetState extends State<ShopWidget> {
                       CategoryWidget(
                         modalSetState: modalSetState,
                         scrollController: scrollController,
-                        category: Category(id: stickerType, name: stickerType, imagePath: '', price: 0),
+                        category: Category(id: category, name: category, imagePath: '', price: 0),
                         stickerCount: entry.value.length,
                         showCount: true,
                         isRecentSelected: widget.isRecentSelected,
                         thumbList: widget.thumbList,
                         // isViewOnly: true,
-                        onStickerTypeChanged: (_) {},
+                        onCategoryChanged: (_) {},
                       ),
                       GridWidget(
                         stickers: stickers,
-                        stickerType: stickerType,
+                        category: Category(id: category, name: category, imagePath: '', price: 0),
                         scrollController: scrollController,
                         isViewOnly: false,
                         isLocked: true,

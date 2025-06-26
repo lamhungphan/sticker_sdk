@@ -42,67 +42,60 @@ class _FilteredWidgetState extends State<FilteredWidget> {
     final Map<String, List<Sticker>> filteredStickers =
         // Nếu thumb được chọn là Recents
         (widget.currentStickerType == 'Recents')
-            // Thì lấy tất cả các loại Sticker
-            ? Map<String, List<Sticker>>.fromEntries(widget.allStickerList.entries.take(5))
-            // Còn không thì lấy tất cả Sticker của 1 loại Sticker
-            : <String, List<Sticker>>{
-              widget.currentStickerType: widget.allStickerList[widget.currentStickerType] ?? [],
-            };
+        // Thì lấy tất cả các loại Sticker
+        ? Map<String, List<Sticker>>.fromEntries(widget.allStickerList.entries.take(5))
+        // Còn không thì lấy tất cả Sticker của 1 loại Sticker
+        : <String, List<Sticker>>{widget.currentStickerType: widget.allStickerList[widget.currentStickerType] ?? []};
 
     return Expanded(
       child: CustomScrollView(
         controller: widget.scrollController,
-        slivers:
-            filteredStickers.entries
-                .expand((entry) {
-                  // Lấy key là loại của Sticker
-                  final String stickerType = entry.key;
-                  // Lấy value là tất cả các Sticker
-                  final List<Sticker> stickers =
-                      (widget.currentStickerType == 'Recents') ? entry.value.take(5).toList() : entry.value;
+        slivers: filteredStickers.entries
+            .expand((entry) {
+              // Lấy key là loại của Sticker
+              final String category = entry.key;
+              // Lấy value là tất cả các Sticker
+              final List<Sticker> stickers = (widget.currentStickerType == 'Recents')
+                  ? entry.value.take(5).toList()
+                  : entry.value;
 
-                  return stickers.isNotEmpty
-                      ? [
-                        CategoryWidget(
-                          modalSetState: widget.modalSetState,
-                          scrollController: widget.scrollController,
-                          category: Category(
-                            id: stickerType,
-                            name: stickerType,
-                            imagePath: '',
-                            price: 0,
-                          ),
-                          stickerCount: entry.value.length,
-                          showCount: false,
-                          isRecentSelected: widget.isRecentSelected,
-                          thumbList: widget.thumbList,
-                          onStickerTypeChanged: (String newType) {
-                            setState(() {
-                              widget.currentStickerType = newType;
-                              widget.isRecentSelected = newType == 'Recents';
-                            });
+              return stickers.isNotEmpty
+                  ? [
+                      CategoryWidget(
+                        modalSetState: widget.modalSetState,
+                        scrollController: widget.scrollController,
+                        category: Category(id: category, name: category, imagePath: '', price: 0),
+                        stickerCount: entry.value.length,
+                        showCount: false,
+                        isRecentSelected: widget.isRecentSelected,
+                        thumbList: widget.thumbList,
+                        onCategoryChanged: (String newType) {
+                          setState(() {
+                            widget.currentStickerType = newType;
+                            widget.isRecentSelected = newType == 'Recents';
+                          });
 
-                            // Để trả về widget cha 1 String
-                            widget.onStickerTypeChanged(newType);
-                          },
-                        ),
-                        GridWidget(
-                          stickers: stickers,
-                          stickerType: stickerType,
-                          scrollController: widget.scrollController,
-                          isViewOnly: widget.currentStickerType == 'Recents' ? true : false,
-                          isLocked: true,
-                          thumbList: widget.thumbList,
-                          recentsStickerList: widget.recentsStickerList,
-                          chatContentList: widget.chatContentList,
-                          allStickerPro: widget.allStickerPro,
-                          showLockIcon: true,
-                        ),
-                      ]
-                      : [];
-                })
-                .cast<Widget>()
-                .toList(),
+                          // Để trả về widget cha 1 String
+                          widget.onStickerTypeChanged(newType);
+                        },
+                      ),
+                      GridWidget(
+                        stickers: stickers,
+                        category: Category(id: category, name: category, imagePath: category, price: 0),
+                        scrollController: widget.scrollController,
+                        isViewOnly: widget.currentStickerType == 'Recents' ? true : false,
+                        isLocked: true,
+                        thumbList: widget.thumbList,
+                        recentsStickerList: widget.recentsStickerList,
+                        chatContentList: widget.chatContentList,
+                        allStickerPro: widget.allStickerPro,
+                        showLockIcon: true,
+                      ),
+                    ]
+                  : [];
+            })
+            .cast<Widget>()
+            .toList(),
       ),
     );
   }

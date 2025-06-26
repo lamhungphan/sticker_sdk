@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/utils/item_builder.dart';
 import 'package:star_sticker/presentation/widgets/shop_detail_widget.dart';
 import 'package:star_sticker/models/chat_content.dart';
@@ -9,7 +10,7 @@ class GridWidget extends StatefulWidget {
   GridWidget({
     super.key,
     required this.stickers,
-    required this.stickerType,
+    required this.category,
     required this.scrollController,
     required this.isViewOnly,
     required this.isLocked,
@@ -21,7 +22,7 @@ class GridWidget extends StatefulWidget {
   });
 
   List<Sticker> stickers;
-  String stickerType;
+  Category category;
   ScrollController scrollController;
   bool isViewOnly = false;
   bool isLocked = false;
@@ -65,7 +66,7 @@ class _GridWidgetState extends State<GridWidget> {
             shopDetailWidget(
               context: context,
               scrollController: widget.scrollController,
-              stickerType: widget.stickerType,
+              category: widget.category,
               allStickerPro: widget.allStickerPro,
               thumbList: widget.thumbList,
               recentsStickerList: widget.recentsStickerList,

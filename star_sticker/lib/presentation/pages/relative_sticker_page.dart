@@ -15,7 +15,7 @@ class RelativeStickerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StickerProvider>(context);
-    final stickerList = provider.allSticker[category.name] ?? [];
+    final stickerList = provider.allSticker[category.id] ?? [];
 
     if (provider.isLoading) return const Center(child: CircularProgressIndicator());
     if (provider.error != null) return Center(child: Text('Lỗi: ${provider.error}'));
@@ -27,7 +27,12 @@ class RelativeStickerPage extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.all(screenSize * 0.04),
-          child: Text(category.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          child: Consumer<StickerProvider>(
+            builder: (context, provider, _) {
+              final categoryName = provider.categoryMap[category.id]?.name ?? category.name;
+              return Text(categoryName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+            },
+          ),
         ),
         Expanded(
           child: GridView.builder(
@@ -40,25 +45,24 @@ class RelativeStickerPage extends StatelessWidget {
             itemCount: stickerList.length,
             itemBuilder: (context, index) {
               final sticker = stickerList[index];
-              final isPremium = provider.isStickerPremium(category.name, sticker);
+              final isPremium = provider.isStickerPremium(category.id, sticker);
 
               return itemBuilder(
                 context: context,
                 sticker: sticker,
                 isLocked: isPremium,
-                isViewOnly: false, 
+                isViewOnly: false,
                 showLockIcon: sticker.isPremium,
                 onSelected: () => onStickerSelected(sticker),
-                onShowProDetail:
-                    () => shopDetailWidget(
-                      context: context,
-                      scrollController: ScrollController(),
-                      stickerType: category.name  ,
-                      allStickerPro: provider.premiumSticker,
-                      thumbList: provider.thumb,
-                      recentsStickerList: [],
-                      chatContentList: [],
-                    ),
+                onShowProDetail: () => shopDetailWidget(
+                  context: context,
+                  scrollController: ScrollController(),
+                  category: category,
+                  allStickerPro: provider.premiumSticker,
+                  thumbList: provider.thumb,
+                  recentsStickerList: [],
+                  chatContentList: [],
+                ),
               );
             },
           ),

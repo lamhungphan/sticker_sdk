@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/presentation/pages/checkout_page.dart';
 import 'package:star_sticker/presentation/widgets/grid_widget.dart';
 import 'package:star_sticker/models/chat_content.dart';
@@ -7,7 +8,7 @@ import 'package:star_sticker/models/sticker.dart';
 Future shopDetailWidget({
   required BuildContext context,
   required ScrollController scrollController,
-  required String stickerType,
+  required Category category,
   required Map<String, List<Sticker>> allStickerPro,
   required List<Sticker> thumbList,
   required List<Sticker> recentsStickerList,
@@ -51,7 +52,7 @@ Future shopDetailWidget({
                         padding: EdgeInsets.only(top: screenSize * 0.005),
                         child: Center(
                           child: Text(
-                            '$stickerType Premium',
+                            '$category Premium',
                             style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -63,8 +64,8 @@ Future shopDetailWidget({
                     SliverPadding(
                       padding: EdgeInsets.all(screenSize * 0.01),
                       sliver: GridWidget(
-                        stickers: allStickerPro[stickerType] ?? [],
-                        stickerType: stickerType,
+                        stickers: allStickerPro[category] ?? [],
+                        category: category,
                         scrollController: scrollController,
                         isViewOnly: true,
                         isLocked: false,
