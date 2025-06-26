@@ -46,26 +46,23 @@ void showPreviewWithOptions(BuildContext context, Sticker sticker, VoidCallback 
         onTap: () => Navigator.of(context).pop(),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Stack(
-            alignment: Alignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  onSelected();
-                },
-                child: Image.network(sticker.imagePath, width: screenSize * 0.6, height: screenSize * 0.6),
-              ),
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onSelected();
+                  },
+                  child: Image.network(sticker.imagePath, width: screenSize * 0.6, height: screenSize * 0.6),
+                ),
+                const SizedBox(height: 24),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
 
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                  ),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -90,8 +87,8 @@ void showPreviewWithOptions(BuildContext context, Sticker sticker, VoidCallback 
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
