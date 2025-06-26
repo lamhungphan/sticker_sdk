@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:star_sticker/sticker.dart';
 import 'package:sticker_app/features/chat/widgets/chat_appbar.dart';
 import 'package:sticker_app/features/chat/widgets/chat_body.dart';
 
@@ -14,13 +13,9 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late final Calculator calculator;
-
   @override
   void initState() {
     super.initState();
-    calculator = Calculator();
-    print('Kết quả 5 + 4 = ${calculator.addOne(5 + 3)}');
   }
 
   @override

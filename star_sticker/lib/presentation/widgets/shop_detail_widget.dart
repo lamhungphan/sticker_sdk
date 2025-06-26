@@ -3,6 +3,7 @@ import 'package:star_sticker/presentation/pages/checkout_page.dart';
 import 'package:star_sticker/presentation/widgets/grid_widget.dart';
 import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/sticker.dart';
+import 'package:star_sticker/sticker.dart';
 
 Future shopDetailWidget({
   required BuildContext context,

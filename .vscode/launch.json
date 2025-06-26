@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "sticker_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "sticker_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "sticker_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "star_sticker",
+            "cwd": "star_sticker",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "star_sticker (profile mode)",
+            "cwd": "star_sticker",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "star_sticker (release mode)",
+            "cwd": "star_sticker",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

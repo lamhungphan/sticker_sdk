@@ -17,34 +17,40 @@ class StickerProvider with ChangeNotifier {
 
   String? _error;
   String? get error => _error;
+  bool get hasError => _error != null;
+  bool get hasData => _allSticker.isNotEmpty;
 
+  /// Load toàn bộ sticker, thumb và premium
   Future<void> loadAllStickers() async {
     _setLoading(true);
-    try {
-      final [all, pro, thumb] = await Future.wait([
-        StickerApi.fetchAllStickers(),
-        StickerApi.fetchPremiumStickers(),
-        StickerApi.fetchThumb(),
-      ]);
+    _error = null;
 
-      _allSticker = all as Map<String, List<Sticker>>;
-      _premiumSticker = pro as Map<String, List<Sticker>>;
-      _thumb = thumb as List<Sticker>;
+    try {
+      final allFuture = StickerApi.fetchAllStickers();
+      final proFuture = StickerApi.fetchPremiumStickers();
+      final thumbFuture = StickerApi.fetchThumb();
+
+      _allSticker = await allFuture;
+      _premiumSticker = await proFuture;
+      _thumb = await thumbFuture;
     } catch (e) {
-      _error = e.toString();
+      _error = 'Failed to load stickers: $e';
     } finally {
       _setLoading(false);
     }
   }
 
+  /// Kiểm tra sticker có thuộc danh sách premium không
+  bool isStickerPremium(String categoryId, Sticker sticker) {
+    final premiumList = _premiumSticker[categoryId];
+    if (premiumList == null || premiumList.isEmpty) return false;
+
+    // So sánh an toàn bằng id
+    return premiumList.any((s) => s.id == sticker.id);
+  }
+
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
-  }
-
-  bool isStickerPremium(String categoryId, Sticker sticker) {
-    final premiumList = _premiumSticker[categoryId];
-    if (premiumList == null) return false;
-    return premiumList.any((s) => s.imagePath == sticker.imagePath);
   }
 }

@@ -43,4 +43,8 @@ class Sticker {
 
   // Helper to check if sticker is active
   bool get isActive => status == 'active';
+
+  get category => null;
+
+  get name => null;
 }

@@ -4,8 +4,8 @@ import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 import 'package:star_sticker/presentation/widgets/filtered_widget.dart';
 import 'package:star_sticker/presentation/widgets/search_widget.dart';
 import 'package:star_sticker/presentation/widgets/thumb_widget.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/sticker.dart';
+import 'package:star_sticker/models/chat_content.dart';
 
 // ignore: must_be_immutable
 class StickerPage extends StatefulWidget {

@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:sticker_app/features/friend/pages/friend_page.dart';
 import 'package:sticker_app/features/friend/provider/user_provider.dart';
-import 'package:sticker_app/features/sticker/provider/category_provider.dart';
-import 'package:sticker_app/features/sticker/provider/sticker_provider.dart';
+import 'package:star_sticker/presentation/provider/category_provider.dart';
+import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

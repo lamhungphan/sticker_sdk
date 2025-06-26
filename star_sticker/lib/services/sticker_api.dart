@@ -1,111 +1,83 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:star_sticker/utils/base_url.dart';
 import 'package:star_sticker/models/sticker.dart';
+import 'package:star_sticker/utils/base_url.dart';
 
 class StickerApi {
-  const StickerApi._();
+  StickerApi._(); // private constructor
 
   static final String _api = BaseUrl.stickerUrl;
+  static final Map<String, String> _headers = {
+    'apikey': BaseUrl.apiKey,
+    'Authorization': 'Bearer ${BaseUrl.apiKey}',
+  };
+
+  static Uri get _uri => Uri.parse(_api);
 
   static Future<Map<String, List<Sticker>>> fetchAllStickers() async {
-    final http.Response response = await http.get(
-      Uri.parse(_api),
-      headers: {'apikey': BaseUrl.apiKey, 'Authorization': 'Bearer ${BaseUrl.apiKey}'},
-    );
+    final response = await http.get(_uri, headers: _headers);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-
-      final List<Sticker> stickers = data.map((json) => Sticker.fromJson(json)).toList();
-      final Map<String, List<Sticker>> grouped = {};
-
-      for (var sticker in stickers) {
-        final type = sticker.categoryId;
-
-        if (!grouped.containsKey(type)) {
-          grouped[type] = [];
-        }
-
-        grouped[type]!.add(sticker);
-      }
-      return grouped;
+      final data = jsonDecode(response.body) as List<dynamic>;
+      final stickers = data.map((e) => Sticker.fromJson(e)).toList();
+      return _groupByCategory(stickers);
     } else {
-      throw Exception('Failed to load all sticker');
+      throw Exception('Failed to load all stickers: ${response.statusCode} ${response.body}');
     }
   }
 
   static Future<Map<String, List<Sticker>>> fetchPremiumStickers() async {
-    final http.Response response = await http.get(
-      Uri.parse(_api),
-      headers: {'apikey': BaseUrl.apiKey, 'Authorization': 'Bearer ${BaseUrl.apiKey}'},
-    );
+    final response = await http.get(_uri, headers: _headers);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-
-      final List<Sticker> stickers =
-          data.map((json) => Sticker.fromJson(json)).where((sticker) => sticker.isPremium == true).toList();
-
-      final Map<String, List<Sticker>> grouped = {};
-
-      for (var sticker in stickers) {
-        final type = sticker.categoryId;
-
-        if (!grouped.containsKey(type)) {
-          grouped[type] = [];
-        }
-
-        grouped[type]!.add(sticker);
-      }
-
-      return grouped;
+      final data = jsonDecode(response.body) as List<dynamic>;
+      final stickers = data.map((e) => Sticker.fromJson(e)).where((s) => s.isPremium).toList();
+      return _groupByCategory(stickers);
     } else {
-      throw Exception('Failed to load premium stickers');
+      throw Exception('Failed to load premium stickers: ${response.statusCode} ${response.body}');
     }
   }
 
   static Future<List<Sticker>> fetchThumb() async {
-    final http.Response response = await http.get(
-      Uri.parse(_api),
-      headers: {'apikey': BaseUrl.apiKey, 'Authorization': 'Bearer ${BaseUrl.apiKey}'},
-    );
+    final response = await http.get(_uri, headers: _headers);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final data = jsonDecode(response.body) as List<dynamic>;
+      final stickers = data.map((e) => Sticker.fromJson(e)).toList();
+      final Map<String, Sticker> firstOfEach = {};
 
-      final List<Sticker> stickersThumb = data.map((json) => Sticker.fromJson(json)).toList();
-
-      final Map<String, Sticker> firstOfEachType = {};
-
-      for (final sticker in stickersThumb) {
-        if (!firstOfEachType.containsKey(sticker.categoryId)) {
-          firstOfEachType[sticker.categoryId] = sticker;
-        }
+      for (final sticker in stickers) {
+        firstOfEach.putIfAbsent(sticker.categoryId, () => sticker);
       }
-      return firstOfEachType.values.toList();
+
+      return firstOfEach.values.toList();
     } else {
-      throw Exception('Failed to load thumb stickers');
+      throw Exception('Failed to load thumb stickers: ${response.statusCode} ${response.body}');
     }
   }
 
   static Future<bool> uploadSticker(Sticker sticker, File imageFile) async {
-    final uri = Uri.parse(_api);
-
-    final request =
-        http.MultipartRequest('POST', uri)
-          ..fields['id'] = sticker.id
-          ..fields['category_id'] = sticker.categoryId
-          ..fields['image_path'] = sticker.imagePath
-          ..fields['is_premium'] = sticker.isPremium.toString()
-          ..fields['status'] = sticker.status
-          ..fields['used_count'] = sticker.usedCount.toString()
-          ..fields['tags'] = jsonEncode(sticker.tags)
-          ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+    final request = http.MultipartRequest('POST', _uri)
+      ..headers.addAll(_headers)
+      ..fields['id'] = sticker.id
+      ..fields['category_id'] = sticker.categoryId
+      ..fields['image_path'] = sticker.imagePath
+      ..fields['is_premium'] = sticker.isPremium.toString()
+      ..fields['status'] = sticker.status
+      ..fields['used_count'] = sticker.usedCount.toString()
+      ..fields['tags'] = jsonEncode(sticker.tags)
+      ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
 
     final response = await request.send();
-
     return response.statusCode == 200;
+  }
+
+  static Map<String, List<Sticker>> _groupByCategory(List<Sticker> stickers) {
+    final grouped = <String, List<Sticker>>{};
+    for (var sticker in stickers) {
+      grouped.putIfAbsent(sticker.categoryId, () => []).add(sticker);
+    }
+    return grouped;
   }
 }
