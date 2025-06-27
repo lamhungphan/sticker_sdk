@@ -61,7 +61,6 @@ class RelativeStickerPage extends StatelessWidget {
                   allStickerPro: provider.premiumSticker,
                   thumbList: provider.thumb,
                   recentsStickerList: [],
-                  chatContentList: [],
                 ),
               );
             },

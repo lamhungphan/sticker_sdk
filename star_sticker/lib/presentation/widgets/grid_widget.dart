@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/utils/item_builder.dart';
 import 'package:star_sticker/presentation/widgets/shop_detail_widget.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/sticker.dart';
 
 // ignore: must_be_immutable
@@ -16,7 +15,6 @@ class GridWidget extends StatefulWidget {
     required this.isLocked,
     required this.thumbList,
     required this.recentsStickerList,
-    required this.chatContentList,
     required this.allStickerPro,
     this.showLockIcon = false,
   });
@@ -29,7 +27,6 @@ class GridWidget extends StatefulWidget {
   bool showLockIcon = false;
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
-  List<ChatContent> chatContentList;
   Map<String, List<Sticker>> allStickerPro;
 
   @override
@@ -58,7 +55,6 @@ class _GridWidgetState extends State<GridWidget> {
               if (widget.recentsStickerList.length > 5) {
                 widget.recentsStickerList.removeAt(5);
               }
-              widget.chatContentList.insert(0, ChatContent(sticker: sticker));
             });
             FocusScope.of(context).unfocus();
           },
@@ -70,7 +66,6 @@ class _GridWidgetState extends State<GridWidget> {
               allStickerPro: widget.allStickerPro,
               thumbList: widget.thumbList,
               recentsStickerList: widget.recentsStickerList,
-              chatContentList: widget.chatContentList,
             );
           },
           showLockIcon: widget.showLockIcon,

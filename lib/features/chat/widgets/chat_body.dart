@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:sticker_app/features/chat/widgets/chat_list.dart';
 import 'package:star_sticker/presentation/pages/sticker_page.dart';
 import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 import 'package:star_sticker/models/sticker.dart';
+import 'package:sticker_app/models/chat_content.dart';
 
 class ChatBody extends StatefulWidget {
   const ChatBody({super.key});
@@ -170,7 +170,6 @@ class _ChatBodyState extends State<ChatBody> {
                             child: StickerPage(
                               modalSetState: modalSetState,
                               scrollController: scrollController,
-                              chatContentList: chatContentList,
                               thumbList: thumbList,
                               recentsStickerList: recentsStickerList,
                             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:star_sticker/presentation/widgets/grid_widget.dart';
 import 'package:star_sticker/presentation/widgets/category_widget.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/models/sticker.dart';
 
@@ -16,7 +15,6 @@ class FilteredWidget extends StatefulWidget {
     required this.isRecentSelected,
     required this.thumbList,
     required this.recentsStickerList,
-    required this.chatContentList,
     required this.allStickerPro,
     required this.onStickerTypeChanged,
   });
@@ -28,7 +26,6 @@ class FilteredWidget extends StatefulWidget {
   bool isRecentSelected;
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
-  List<ChatContent> chatContentList;
   Map<String, List<Sticker>> allStickerPro;
   Function(String) onStickerTypeChanged;
 
@@ -87,7 +84,6 @@ class _FilteredWidgetState extends State<FilteredWidget> {
                         isLocked: true,
                         thumbList: widget.thumbList,
                         recentsStickerList: widget.recentsStickerList,
-                        chatContentList: widget.chatContentList,
                         allStickerPro: widget.allStickerPro,
                         showLockIcon: true,
                       ),

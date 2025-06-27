@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/presentation/pages/checkout_page.dart';
 import 'package:star_sticker/presentation/widgets/grid_widget.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/sticker.dart';
 
 Future shopDetailWidget({
@@ -12,7 +11,6 @@ Future shopDetailWidget({
   required Map<String, List<Sticker>> allStickerPro,
   required List<Sticker> thumbList,
   required List<Sticker> recentsStickerList,
-  required List<ChatContent> chatContentList,
 }) {
   final double screenSize = MediaQuery.of(context).size.height;
 
@@ -71,7 +69,6 @@ Future shopDetailWidget({
                         isLocked: false,
                         thumbList: thumbList,
                         recentsStickerList: recentsStickerList,
-                        chatContentList: chatContentList,
                         allStickerPro: allStickerPro,
                       ),
                     ),

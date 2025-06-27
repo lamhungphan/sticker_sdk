@@ -5,26 +5,15 @@ import 'package:star_sticker/presentation/widgets/filtered_widget.dart';
 import 'package:star_sticker/presentation/widgets/search_widget.dart';
 import 'package:star_sticker/presentation/widgets/thumb_widget.dart';
 import 'package:star_sticker/models/sticker.dart';
-import 'package:star_sticker/models/chat_content.dart';
 
 // ignore: must_be_immutable
 class StickerPage extends StatefulWidget {
+
   StickerPage({
     super.key,
-    required this.modalSetState,
-    required this.scrollController,
-    required this.chatContentList,
-    required this.thumbList,
-    required this.recentsStickerList,
-    this.initialStickerType
   });
 
-  StateSetter modalSetState;
-  ScrollController scrollController;
-  List<ChatContent> chatContentList;
-  List<Sticker> thumbList;
-  List<Sticker> recentsStickerList;
-final String? initialStickerType;
+
   @override
   State<StickerPage> createState() => _StickerPageState();
 }
@@ -39,6 +28,7 @@ class _StickerPageState extends State<StickerPage> {
   // Lưu tất cả các Sticker
   Map<String, List<Sticker>> allStickerList = {};
 
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +36,7 @@ class _StickerPageState extends State<StickerPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<StickerProvider>(context, listen: false).loadAllStickers();
     });
+    
   }
 
   @override
@@ -95,7 +86,6 @@ class _StickerPageState extends State<StickerPage> {
           thumbList: widget.thumbList,
           currentStickerType: currentStickerType,
           recentsStickerList: widget.recentsStickerList,
-          chatContentList: widget.chatContentList,
           onStickerTypeChanged: (String newType) {
             widget.modalSetState(() {
               currentStickerType = newType;
@@ -130,7 +120,6 @@ class _StickerPageState extends State<StickerPage> {
           isRecentSelected: isRecentSelected,
           thumbList: widget.thumbList,
           recentsStickerList: widget.recentsStickerList,
-          chatContentList: widget.chatContentList,
           allStickerPro: allStickerPro,
           onStickerTypeChanged: (String newType) {
             widget.modalSetState(() {

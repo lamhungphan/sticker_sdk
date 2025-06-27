@@ -1,19 +1,21 @@
-// export 'models/sticker.dart';
-// export 'models/category.dart';
+import 'package:provider/provider.dart';
+import 'package:star_sticker/models/sticker.dart';
+import 'package:star_sticker/presentation/provider/category_provider.dart';
+import 'package:star_sticker/presentation/provider/sticker_provider.dart';
+import 'package:star_sticker/services/sticker_api.dart';
 
-// export 'presentation/pages/checkout_page.dart';
-// export 'presentation/pages/edit_sticker_page.dart';
-// export 'presentation/pages/relative_sticker_page.dart';
-// export 'presentation/pages/sticker_page.dart';
+void initSticker() async {
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => StickerProvider()),
+      ChangeNotifierProvider(create: (_) => CategoryProvider()),
+    ],
+  );
+}
 
-// export 'presentation/provider/sticker_provider.dart';
-// export 'presentation/provider/category_provider.dart';
+List<Sticker> thumbList = [];
+List<Sticker> recentsStickerList = [];
 
-// export 'presentation/widgets/add_sticker_widget.dart';
-// export 'presentation/widgets/category_widget.dart';
-// export 'presentation/widgets/filtered_widget.dart';
-// export 'presentation/widgets/grid_widget.dart'; 
-// export 'presentation/widgets/recent_sticker_widget.dart';
-// export 'presentation/widgets/shop_detail_widget.dart';
-// export 'presentation/widgets/shop_widget.dart';
-// export 'presentation/widgets/thumb_widget.dart';
+Future<void> feachApi() async {
+  thumbList = await StickerApi.fetchThumb();
+}

@@ -17,7 +17,7 @@ class StickerApi {
 
   static Future<Map<String, List<Sticker>>> fetchAllStickers() async {
     final response = await http.get(_uri, headers: _headers);
-
+print(response);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List<dynamic>;
       final stickers = data.map((e) => Sticker.fromJson(e)).toList();

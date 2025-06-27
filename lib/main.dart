@@ -19,8 +19,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => StickerProvider()),
-        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        // ChangeNotifierProvider(create: (_) => StickerProvider()),
+        // ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: const MyApp(),
     ),

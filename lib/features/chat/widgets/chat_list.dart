@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/models/sticker.dart';
 import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 import 'package:star_sticker/presentation/pages/relative_sticker_page.dart';
+import 'package:sticker_app/models/chat_content.dart';
 
 // ignore: must_be_immutable
 class ChatList extends StatelessWidget {

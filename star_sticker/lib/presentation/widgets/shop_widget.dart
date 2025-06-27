@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:star_sticker/presentation/widgets/grid_widget.dart';
 import 'package:star_sticker/presentation/widgets/search_widget.dart';
 import 'package:star_sticker/presentation/widgets/category_widget.dart';
-import 'package:star_sticker/models/chat_content.dart';
 import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/models/sticker.dart';
 
@@ -16,7 +15,6 @@ class ShopWidget extends StatefulWidget {
     required this.isRecentSelected,
     required this.thumbList,
     required this.recentsStickerList,
-    required this.chatContentList,
   });
   StateSetter modalSetState;
   ScrollController scrollController;
@@ -24,7 +22,6 @@ class ShopWidget extends StatefulWidget {
   bool isRecentSelected;
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
-  List<ChatContent> chatContentList;
 
   @override
   State<ShopWidget> createState() => _ShopWidgetState();
@@ -137,7 +134,6 @@ class _ShopWidgetState extends State<ShopWidget> {
                         isLocked: true,
                         thumbList: widget.thumbList,
                         recentsStickerList: widget.recentsStickerList,
-                        chatContentList: widget.chatContentList,
                         allStickerPro: widget.allStickerPro,
                         showLockIcon: false,
                       ),
