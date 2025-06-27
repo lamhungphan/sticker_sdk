@@ -1,8 +1,13 @@
-import 'package:star_sticker/models/sticker.dart';
+// import 'package:star_sticker/models/sticker.dart';
 
 class ChatContent {
-  ChatContent({this.text, this.sticker});
+  ChatContent({
+    this.text,
+    this.stickerUrl,
+    // this.sticker,
+  });
 
   final String? text;
-  final Sticker? sticker;
+  final String? stickerUrl;
+  // final Sticker? sticker;
 }

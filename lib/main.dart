@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:provider/provider.dart';
-import 'package:sticker_app/features/friend/pages/friend_page.dart';
-import 'package:sticker_app/features/friend/provider/user_provider.dart';
-import 'package:star_sticker/presentation/provider/category_provider.dart';
-import 'package:star_sticker/presentation/provider/sticker_provider.dart';
+import 'package:star_sticker/sticker.dart';
+// import 'package:provider/provider.dart';
+// import 'package:sticker_app/features/chat/widgets/chat_list.dart';
+// import 'package:sticker_app/features/friend/pages/friend_page.dart';
+// import 'package:sticker_app/features/friend/provider/user_provider.dart';
+// import 'package:star_sticker/presentation/provider/category_provider.dart';
+// import 'package:star_sticker/presentation/provider/sticker_provider.dart';
+
+import 'features/chat/widgets/chat_body.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,16 +19,7 @@ void main() async {
     debugPrint('Error loading .env file: $e');
   }
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        // ChangeNotifierProvider(create: (_) => StickerProvider()),
-        // ChangeNotifierProvider(create: (_) => CategoryProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +27,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(debugShowCheckedModeBanner: false, home: FriendPage());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ChatBody(),
+    );
   }
 }

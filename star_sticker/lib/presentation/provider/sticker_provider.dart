@@ -25,6 +25,9 @@ class StickerProvider with ChangeNotifier {
   bool get hasError => _error != null;
   bool get hasData => _allSticker.isNotEmpty;
 
+  List<Sticker> _recentsStickerList = [];
+  List<Sticker> get recentsStickerList => _recentsStickerList;
+
   /// Load toàn bộ sticker, thumb, premium và category map
   Future<void> loadAllStickers() async {
     _setLoading(true);

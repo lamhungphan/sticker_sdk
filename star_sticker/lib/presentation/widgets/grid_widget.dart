@@ -17,6 +17,7 @@ class GridWidget extends StatefulWidget {
     required this.recentsStickerList,
     required this.allStickerPro,
     this.showLockIcon = false,
+    this.onStickerSelected,
   });
 
   List<Sticker> stickers;
@@ -28,6 +29,7 @@ class GridWidget extends StatefulWidget {
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
   Map<String, List<Sticker>> allStickerPro;
+  Function(Sticker sticker)? onStickerSelected;
 
   @override
   State<GridWidget> createState() => _GridWidgetState();
@@ -46,16 +48,21 @@ class _GridWidgetState extends State<GridWidget> {
           isLocked: sticker.isPremium && widget.isLocked,
           isViewOnly: false,
           onSelected: () {
+            if (widget.onStickerSelected != null) {
+              widget.onStickerSelected!(sticker);
+            }
+
             Navigator.of(context).pop();
 
-            setState(() {
-              widget.recentsStickerList.removeWhere((s) => s.imagePath == sticker.imagePath);
-              widget.recentsStickerList.insert(0, sticker);
+            // setState(() {
+            //   widget.recentsStickerList
+            //       .removeWhere((s) => s.imagePath == sticker.imagePath);
+            //   widget.recentsStickerList.insert(0, sticker);
 
-              if (widget.recentsStickerList.length > 5) {
-                widget.recentsStickerList.removeAt(5);
-              }
-            });
+            //   if (widget.recentsStickerList.length > 5) {
+            //     widget.recentsStickerList.removeAt(5);
+            //   }
+            // });
             FocusScope.of(context).unfocus();
           },
           onShowProDetail: () {

@@ -17,6 +17,7 @@ class ThumbWidget extends StatefulWidget {
     required this.currentStickerType,
     required this.recentsStickerList,
     required this.onStickerTypeChanged,
+    this.onStickerSelected,
   });
 
   StateSetter modalSetState;
@@ -27,6 +28,7 @@ class ThumbWidget extends StatefulWidget {
   String currentStickerType;
   List<Sticker> recentsStickerList;
   Function(String) onStickerTypeChanged;
+  Function(String stickerUrl)? onStickerSelected;
 
   @override
   State<ThumbWidget> createState() => _ThumbWidgetState();
@@ -51,7 +53,8 @@ class _ThumbWidgetState extends State<ThumbWidget> {
             recentsStickerList: widget.recentsStickerList,
           ),
           Padding(
-            padding: EdgeInsets.only(left: screenSize * 0.04, right: screenSize * 0.02),
+            padding: EdgeInsets.only(
+                left: screenSize * 0.04, right: screenSize * 0.02),
             child: const AddStickerWidget(),
           ),
           FavoriteWidget(),
@@ -74,12 +77,14 @@ class _ThumbWidgetState extends State<ThumbWidget> {
     );
   }
 
-  List<Widget> _stickerThumbList(StateSetter modalSetState, ScrollController scrollController) {
+  List<Widget> _stickerThumbList(
+      StateSetter modalSetState, ScrollController scrollController) {
     // Lấy thumbnail hiện lên giao diện
     return List.generate(widget.thumbList.length, (int index) {
       Sticker thumbnail = widget.thumbList[index];
       // thumbnail.categoryId == currentStickerType ? isThumbnailSelected = true : false
-      bool isThumbnailSelected = thumbnail.categoryId == widget.currentStickerType;
+      bool isThumbnailSelected =
+          thumbnail.categoryId == widget.currentStickerType;
 
       final double screenSize = MediaQuery.of(context).size.width;
 
@@ -98,10 +103,13 @@ class _ThumbWidgetState extends State<ThumbWidget> {
             height: 45,
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
-              color: isThumbnailSelected ? Colors.black.withAlpha(32) : Colors.transparent,
+              color: isThumbnailSelected
+                  ? Colors.black.withAlpha(32)
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Image(image: NetworkImage(thumbnail.imagePath), fit: BoxFit.cover),
+            child: Image(
+                image: NetworkImage(thumbnail.imagePath), fit: BoxFit.cover),
           ),
         ),
       );

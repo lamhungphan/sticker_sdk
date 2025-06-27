@@ -5,8 +5,10 @@
 import FlutterMacOS
 import Foundation
 
-import photo_manager
+import file_selector_macos
+import image_editor_common
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
+  FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
+  ImageEditorPlugin.register(with: registry.registrar(forPlugin: "ImageEditorPlugin"))
 }

@@ -8,11 +8,12 @@ import 'package:star_sticker/models/sticker.dart';
 
 // ignore: must_be_immutable
 class StickerPage extends StatefulWidget {
-
   StickerPage({
     super.key,
+    this.onStickerSelected,
   });
 
+  final Function(String stickerUrl)? onStickerSelected;
 
   @override
   State<StickerPage> createState() => _StickerPageState();
@@ -27,16 +28,27 @@ class _StickerPageState extends State<StickerPage> {
   Map<String, List<Sticker>> allStickerPro = {};
   // Lưu tất cả các Sticker
   Map<String, List<Sticker>> allStickerList = {};
+  // Lưu các Sticker vừa dùng
 
+  // Lưu các thumb
+  List<Sticker> thumbList = [];
+  // ScrollController cho widgets
+  late ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
-    // Gọi API khi widget khởi tạo
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<StickerProvider>(context, listen: false).loadAllStickers();
-    });
-    
+    scrollController = ScrollController();
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Provider.of<StickerProvider>(context, listen: false).loadAllStickers();
+    // });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,87 +57,90 @@ class _StickerPageState extends State<StickerPage> {
 
     final provider = Provider.of<StickerProvider>(context);
 
-    if (provider.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    // if (provider.isLoading) {
+    //   return const Center(child: CircularProgressIndicator());
+    // }
 
     if (provider.error != null) {
       return Center(child: Text('Error: ${provider.error}'));
     }
 
-    if (provider.thumb.isEmpty) {
-      return const Center(child: Text('No thumb found'));
-    }
-
-    final hasData = provider.allSticker.isNotEmpty && provider.premiumSticker.isNotEmpty && provider.thumb.isNotEmpty;
-
-    if (!hasData) {
-      return const Center(child: Text('No sticker found'));
+    // Nếu chưa có data thì hiển thị loading (trường hợp init chưa xong)
+    if (!provider.hasData || provider.thumb.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
     }
 
     allStickerPro = provider.premiumSticker;
-
     allStickerList = provider.allSticker;
+    thumbList = provider.thumb;
 
     // Cho màn hình mở đầu luôn là Recents
-    if (currentStickerType.isEmpty && widget.thumbList.isNotEmpty) {
+    if (currentStickerType.isEmpty && thumbList.isNotEmpty) {
       currentStickerType = 'Recents';
       isRecentSelected = true;
     }
 
     // Đưa các Sticker trong recentsStickerList vào allStickerList
-    allStickerList = {'Recents': widget.recentsStickerList, ...allStickerList};
+    allStickerList = {
+      'Recents': provider.recentsStickerList,
+      ...allStickerList
+    };
 
     return Column(
       children: [
         ThumbWidget(
-          modalSetState: widget.modalSetState,
-          scrollController: widget.scrollController,
+          modalSetState: setState,
+          scrollController: scrollController,
           allStickerPro: allStickerPro,
           isRecentSelected: isRecentSelected,
-          thumbList: widget.thumbList,
+          thumbList: thumbList,
           currentStickerType: currentStickerType,
-          recentsStickerList: widget.recentsStickerList,
+          recentsStickerList: provider.recentsStickerList,
           onStickerTypeChanged: (String newType) {
-            widget.modalSetState(() {
+            setState(() {
               currentStickerType = newType;
               isRecentSelected = newType == 'Recents';
             });
           },
+          onStickerSelected: widget.onStickerSelected,
         ),
         Padding(
-          padding: EdgeInsets.only(top: screenSize * 0.02, bottom: screenSize * 0.01),
+          padding: EdgeInsets.only(
+              top: screenSize * 0.02, bottom: screenSize * 0.01),
           child: SearchWidget(
             types: allStickerList.keys.toList(),
             onMatched: (String matchedType) {
-              widget.modalSetState(() {
+              setState(() {
                 currentStickerType = matchedType;
                 isRecentSelected = matchedType == 'Recents';
               });
             },
             onEmpty: () {
-              widget.modalSetState(() {
+              setState(() {
                 currentStickerType = 'Recents';
                 isRecentSelected = true;
               });
             },
           ),
         ),
-
         FilteredWidget(
           currentStickerType: currentStickerType,
           allStickerList: allStickerList,
-          scrollController: widget.scrollController,
-          modalSetState: widget.modalSetState,
+          scrollController: scrollController,
+          modalSetState: setState,
           isRecentSelected: isRecentSelected,
-          thumbList: widget.thumbList,
-          recentsStickerList: widget.recentsStickerList,
+          thumbList: thumbList,
+          recentsStickerList: provider.recentsStickerList,
           allStickerPro: allStickerPro,
           onStickerTypeChanged: (String newType) {
-            widget.modalSetState(() {
+            setState(() {
               currentStickerType = newType;
               isRecentSelected = newType == 'Recents';
             });
+          },
+          onStickerSelected: (sticker) {
+            widget.onStickerSelected?.call(sticker.imagePath);
+            provider.recentsStickerList.insert(0, sticker);
           },
         ),
       ],
