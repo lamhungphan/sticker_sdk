@@ -14,6 +14,9 @@ class StickerProvider with ChangeNotifier {
   List<Sticker> _thumb = [];
   List<Sticker> get thumb => _thumb;
 
+    List<Category> _allCategory = [];
+   List<Category> get allCategory => _allCategory;
+
   Map<String, Category> _categoryMap = {};
   Map<String, Category> get categoryMap => _categoryMap;
 
@@ -42,6 +45,7 @@ class StickerProvider with ChangeNotifier {
       _allSticker = await allFuture;
       _premiumSticker = await proFuture;
       _thumb = await thumbFuture;
+      _allCategory = categories;
       _categoryMap = {for (var cat in categories) cat.id: cat};
     } catch (e) {
       _error = 'Failed to load stickers: $e';

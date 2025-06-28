@@ -15,6 +15,7 @@ class ShopWidget extends StatefulWidget {
     required this.isRecentSelected,
     required this.thumbList,
     required this.recentsStickerList,
+    required this.allcategory,
   });
   StateSetter modalSetState;
   ScrollController scrollController;
@@ -22,6 +23,7 @@ class ShopWidget extends StatefulWidget {
   bool isRecentSelected;
   List<Sticker> thumbList;
   List<Sticker> recentsStickerList;
+  List<Category> allcategory = [];
 
   @override
   State<ShopWidget> createState() => _ShopWidgetState();
@@ -81,7 +83,8 @@ class _ShopWidgetState extends State<ShopWidget> {
           child: Padding(
             padding: EdgeInsets.only(top: screenSize * 0.01, bottom: screenSize * 0.005, right: screenSize * 0.01),
             child: SearchWidget(
-              types: widget.allStickerPro.keys.toList(),
+              categories: widget.allStickerPro.keys.toList(),
+              categoriesName: widget.allcategory,
               onMatched: (matchedType) {
                 modalSetState(() {
                   _matchedStickerType = matchedType;

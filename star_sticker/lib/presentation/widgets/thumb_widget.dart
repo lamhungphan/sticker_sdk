@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/presentation/widgets/add_sticker_widget.dart';
 import 'package:star_sticker/presentation/widgets/favorite_widget.dart';
 import 'package:star_sticker/presentation/widgets/recent_sticker_widget.dart';
@@ -18,6 +19,7 @@ class ThumbWidget extends StatefulWidget {
     required this.recentsStickerList,
     required this.onStickerTypeChanged,
     this.onStickerSelected,
+    required this.allcategory,
   });
 
   StateSetter modalSetState;
@@ -29,6 +31,7 @@ class ThumbWidget extends StatefulWidget {
   List<Sticker> recentsStickerList;
   Function(String) onStickerTypeChanged;
   Function(String stickerUrl)? onStickerSelected;
+  List<Category> allcategory = [];
 
   @override
   State<ThumbWidget> createState() => _ThumbWidgetState();
@@ -51,6 +54,7 @@ class _ThumbWidgetState extends State<ThumbWidget> {
             isRecentSelected: widget.isRecentSelected,
             thumbList: widget.thumbList,
             recentsStickerList: widget.recentsStickerList,
+            allcategory: widget.allcategory,
           ),
           Padding(
             padding: EdgeInsets.only(

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:star_sticker/models/category.dart';
 import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 import 'package:star_sticker/presentation/widgets/filtered_widget.dart';
 import 'package:star_sticker/presentation/widgets/search_widget.dart';
@@ -28,7 +31,8 @@ class _StickerPageState extends State<StickerPage> {
   Map<String, List<Sticker>> allStickerPro = {};
   // Lưu tất cả các Sticker
   Map<String, List<Sticker>> allStickerList = {};
-  // Lưu các Sticker vừa dùng
+
+  List<Category> allcategory = [];
 
   // Lưu các thumb
   List<Sticker> thumbList = [];
@@ -39,10 +43,6 @@ class _StickerPageState extends State<StickerPage> {
   void initState() {
     super.initState();
     scrollController = ScrollController();
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Provider.of<StickerProvider>(context, listen: false).loadAllStickers();
-    // });
   }
 
   @override
@@ -73,6 +73,9 @@ class _StickerPageState extends State<StickerPage> {
     allStickerPro = provider.premiumSticker;
     allStickerList = provider.allSticker;
     thumbList = provider.thumb;
+    allcategory = provider.allCategory;
+    print("allcategory: ${jsonEncode(allcategory)}");
+    //allStickerNameList = provider.categoryMap;
 
     // Cho màn hình mở đầu luôn là Recents
     if (currentStickerType.isEmpty && thumbList.isNotEmpty) {
@@ -102,13 +105,15 @@ class _StickerPageState extends State<StickerPage> {
               isRecentSelected = newType == 'Recents';
             });
           },
+          allcategory: allcategory,
           onStickerSelected: widget.onStickerSelected,
         ),
         Padding(
           padding: EdgeInsets.only(
               top: screenSize * 0.02, bottom: screenSize * 0.01),
           child: SearchWidget(
-            types: allStickerList.keys.toList(),
+            categories: allStickerList.keys.toList(),
+            categoriesName: allcategory,
             onMatched: (String matchedType) {
               setState(() {
                 currentStickerType = matchedType;

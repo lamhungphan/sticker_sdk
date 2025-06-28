@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:star_sticker/models/sticker.dart' as StickerModel;
 import 'package:star_sticker/presentation/provider/category_provider.dart';
 import 'package:star_sticker/presentation/provider/sticker_provider.dart';
 import 'package:star_sticker/presentation/pages/sticker_page.dart';
-import 'package:star_sticker/services/sticker_api.dart';
 
 class Sticker {
   static Sticker? _instance;
@@ -113,11 +111,3 @@ class Sticker {
     );
   }
 }
-
-// // Legacy functions - giữ để tương thích
-// List<StickerModel.Sticker> thumbList = [];
-// List<StickerModel.Sticker> recentsStickerList = [];
-
-// Future<void> feachApi() async {
-//   thumbList = await StickerApi.fetchThumb();
-// }

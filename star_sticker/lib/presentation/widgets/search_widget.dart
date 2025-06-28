@@ -1,13 +1,16 @@
 import "package:flutter/material.dart";
+import "package:star_sticker/models/category.dart";
 
 class SearchWidget extends StatelessWidget {
-  final List<String> types;
+  final List<String> categories;
+  final List<Category> categoriesName;
   final Function(String matchedType) onMatched;
   final Function() onEmpty;
 
   const SearchWidget({
     super.key,
-    required this.types,
+    required this.categories,
+    required this.categoriesName,
     required this.onMatched,
     required this.onEmpty,
   });
@@ -20,13 +23,22 @@ class SearchWidget extends StatelessWidget {
       height: 40,
       child: TextFormField(
         onChanged: (String query) {
-          
+          print('search query: ' + query);
           if (query.trim().isEmpty) {
             onEmpty();
+            print('onEmpty' + onEmpty.toString());
           } else {
-            final match = types.firstWhere(
-              (type) {
-                final words = type.toLowerCase().split(RegExp(r'\s+'));
+            final match = categories.firstWhere(
+              (cate) {
+                print('cate: ' + cate);
+                String name = '';
+                for (var i = 0; i < categoriesName.length; i++) {
+                  if (cate == categoriesName[i].id) {
+                    name = categoriesName[i].name;
+                    break;
+                  }
+                }
+                final words = name.toLowerCase().split(RegExp(r'\s+'));
                 return words.any((word) => word.contains(query.toLowerCase()));
               },
               orElse: () => '',
